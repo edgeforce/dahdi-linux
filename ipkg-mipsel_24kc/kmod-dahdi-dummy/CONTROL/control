@@ -1,0 +1,14 @@
+Package: kmod-dahdi-dummy
+Version: 5.10.134+3.2.0-rc1-1
+Depends: kernel (=5.10.134-1-833930959dfcee4bc3f85e80a8f1598d), kmod-dahdi
+Source: feeds/telephony/libs/dahdi-linux
+SourceName: kmod-dahdi-dummy
+License: GPL-2.0
+LicenseFiles: LICENSE
+Section: kernel
+SourceDateEpoch: 1613819373
+Maintainer: Vittorio Gambaletta <openwrt@vittgam.net>
+Architecture: mipsel_24kc
+Installed-Size: 2370
+Description:  This package contains the dummy DAHDI driver providing only DAHDI timing
+ without any real telephony hardware.
