@@ -42,36 +42,8 @@ typedef struct {
 	uInt8 batselmap;
 } Si3226x_GPIO_Cfg;
 
-/*
-** Defines structure for configuring dc feed
-*/
-typedef struct {
-	ramData slope_vlim;
-	ramData slope_rfeed;
-	ramData slope_ilim;
-	ramData delta1;
-	ramData delta2;
-	ramData v_vlim;
-	ramData v_rfeed;
-	ramData v_ilim;
-	ramData const_rfeed;
-	ramData const_ilim;
-	ramData i_vlim;
-	ramData lcronhk;
-	ramData lcroffhk;
-	ramData lcrdbi;
-	ramData longhith;
-	ramData longloth;
-	ramData longdbi;
-	ramData lcrmask;
-	ramData lcrmask_polrev;
-	ramData lcrmask_state;
-	ramData lcrmask_linecap;
-	ramData vcm_oh;
-	ramData vov_bat;
-	ramData vov_gnd;
-} Si3226x_DCfeed_Cfg;
-
+typedef ProSLIC_DCfeed_Cfg Si3226x_DCfeed_Cfg;
+typedef Si3226x_DCfeed_Cfg* Si3226x_DCfeed_Cfg_ptr;
 /*
 ** Defines structure for general configuration and the dcdc converter
 */
@@ -245,6 +217,7 @@ typedef struct {
 /*
 ** Defines structure for configuring audio eq
 */
+
 typedef struct {
 	ramData txaceq_c0;
 	ramData txaceq_c1;
@@ -257,18 +230,13 @@ typedef struct {
 	ramData rxaceq_c3;
 } Si3226x_audioEQ_Cfg;
 
+
+
 /*
 ** Defines structure for configuring audio gain
 */
-typedef struct {
-	ramData acgain;
-	uInt8 mute;
-	ramData aceq_c0;
-	ramData aceq_c1;
-	ramData aceq_c2;
-	ramData aceq_c3;
-} Si3226x_audioGain_Cfg;
 
+typedef ProSLIC_audioGain_Cfg Si3226x_audioGain_Cfg;
 
 
 typedef struct {

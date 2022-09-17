@@ -1,7 +1,7 @@
 /*
 ** Copyright (c) 2007-2010 by Silicon Laboratories
 **
-** $Id: si3226_intf.h 2395 2010-11-03 23:09:03Z nizajerk $
+** $Id: si3226_intf.h 3100 2011-09-15 14:04:54Z cdp $
 **
 ** Si3226_Intf.h
 ** Si3226 ProSLIC interface header file
@@ -35,8 +35,8 @@
 #define CHAN_PER_DEVICE             2
   
 /* Timeouts in 10s of ms */
-#define TIMEOUT_DCDC_UP             200
-#define TIMEOUT_DCDC_DOWN           200
+#define SI3226_TIMEOUT_DCDC_UP             200
+#define SI3226_TIMEOUT_DCDC_DOWN           200
  
 
 #define SI3226_CAL_STD_CALR1               0xFF
@@ -93,6 +93,20 @@ int Si3226_ShutdownChannel (proslicChanType_ptr hProslic);
 int Si3226_Init (proslicChanType_ptr *hProslic,int size);
 
 /*
+** Function: PROSLIC_Reinit
+**
+** Description: 
+** Peforms Soft Reset and reinitializes the ProSLIC
+**
+** Input Parameters: 
+** pProslic: pointer to PROSLIC object
+**
+** Return:
+** none
+*/
+int Si3226_Reinit (proslicChanType_ptr hProslic,int size);
+
+/*
 ** Function: PROSLIC_Init_MultiBOM
 **
 ** Description: 
@@ -108,7 +122,52 @@ int Si3226_Init_MultiBOM (proslicChanType_ptr *hProslic,int size,int preset);
 
 
 int Si3226_VerifyControlInterface (proslicChanType_ptr hProslic);
+uInt8 Si3226_ReadReg (proslicChanType_ptr hProslic,uInt8 addr);
+int Si3226_WriteReg (proslicChanType_ptr hProslic,uInt8 addr,uInt8 data);
+ramData Si3226_ReadRAM (proslicChanType_ptr hProslic,uInt16 addr);
+int Si3226_WriteRAM (proslicChanType_ptr hProslic,uInt16 addr, ramData data);
+
+/*
+** Function: ProSLIC_PrintDebugData
+**
+** Description: 
+** Register and RAM dump utility
+**
+** Input Parameters: 
+** pProslic: pointer to PROSLIC object
+**
+** Return:
+** none
+*/
 int Si3226_PrintDebugData (proslicChanType_ptr hProslic);
+
+/*
+** Function: ProSLIC_PrintDebugReg
+**
+** Description: 
+** Register dump utility
+**
+** Input Parameters: 
+** pProslic: pointer to PROSLIC object
+**
+** Return:
+** none
+*/
+int Si3226_PrintDebugReg (proslicChanType_ptr hProslic);
+
+/*
+** Function: ProSLIC_PrintDebugRAM
+**
+** Description: 
+** RAM dump utility
+**
+** Input Parameters: 
+** pProslic: pointer to PROSLIC object
+**
+** Return:
+** none
+*/
+int Si3226_PrintDebugRAM (proslicChanType_ptr hProslic);
 
 
 /*

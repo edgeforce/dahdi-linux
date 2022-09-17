@@ -28,21 +28,17 @@
 #ifndef DATATYPES_H
 #define DATATYPES_H
 
-#include "../../../include/voip_types.h" // add by Joshua 2011.05.17
-
 #ifndef TRUE
 #define TRUE (1)
 #endif
 #ifndef FALSE
 #define FALSE (0)
 #endif
-#define BOOLEAN int // add by Joshua 2011.05.17
 
 #ifndef NULL
 #define NULL ((void *) 0)
 #endif
 
-#if 0 // changed by Joshua 2011.05.17
 #if defined(__linux__) && defined(__KERNEL__)
 #include <linux/types.h>
 typedef u_int8_t           BOOLEAN;
@@ -72,12 +68,6 @@ typedef int16_t  			int16;
 typedef uint16_t           uInt16;
 typedef int32_t             int32;
 typedef uint32_t   		uInt32;
-#endif
-#else
-typedef unsigned char uInt8;
-typedef unsigned short int uInt16;
-typedef unsigned long uInt32;
-typedef uInt8 uChar;
 #endif
 /*
 ** RAM data 

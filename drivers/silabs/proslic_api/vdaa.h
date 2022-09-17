@@ -52,7 +52,7 @@
 ** This defines names for the PCM Data Format
 */
  typedef enum {
-	A_LAW = 4,	/**< 04 = A-Law. Signed magnitude data format */
+	A_LAW = 0,	/**< 00 = A-Law. Signed magnitude data format */
 	U_LAW = 1,	/**< 01 = u-Law. Signed magnitude data format */
 	LINEAR_16_BIT = 3 /**< 11 = 16-bit linear (2s complement data format) */
 }tPcmFormat;
@@ -1114,8 +1114,7 @@ int Vdaa_RXAudioGainSetup (vdaaChanType *pVdaa,int32 preset);
  * @sa Vdaa_PCMTimeSlotSetup ProSLIC_PCMStart
  */
 
-// modified by Joshua 2011.05.17
-int Vdaa_PCMSetup (vdaaChanType *pVdaa,int32 preset, int32 pcm_enable);
+int Vdaa_PCMSetup (vdaaChanType *pVdaa,int32 preset);
 
 /** 
  * @brief 

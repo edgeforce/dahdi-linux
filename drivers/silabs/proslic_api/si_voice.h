@@ -1,7 +1,7 @@
 /*
 ** Copyright (c) 2007-2010 by Silicon Laboratories
 **
-** $Id: si_voice.h 2128 2010-07-29 19:40:39Z cdp $
+** $Id: si_voice.h 3088 2011-09-13 15:12:43Z cdp $
 **
 ** si_voice.h
 **
@@ -30,7 +30,10 @@
 #include "si_voice_ctrl.h"
 #include "si_voice_timer_intf.h"
 
+
+
 /** @defgroup SIVOICE SiVoice definitions
+
  * @{
  */
 /*****************************************************************************/
@@ -119,7 +122,8 @@ typedef enum {
     SI32269,
     SI32360,
     SI32361,
-    SI3050 = 100
+    SI3050 = 100,
+	UNSUPPORTED_PART_NUM = 255
 }partNumberType;
 
 /**
@@ -137,7 +141,7 @@ typedef enum {
 
 
 typedef enum {
-    	UNKNOWN, /**< Channel type has not been initalized or is still unknown */
+    UNKNOWN, /**< Channel type has not been initalized or is still unknown */
 	PROSLIC, /**< Channel type is a ProSLIC/FXS */
 	DAA      /**< Channel type is a DAA/FXO */
 } channelTypeType;
@@ -148,7 +152,9 @@ typedef enum {
 typedef enum {
     RC_IGNORE = 0,         
     RC_NONE= 0,           /**< Means the function did not encounter an error */
-    RC_COMPLETE_NO_ERR,   /**< A test completed, no error detected */
+	RC_TEST_PASSED = 0,
+	RC_TEST_FAILED = 1,
+    RC_COMPLETE_NO_ERR = 1,   /**< A test completed, no error detected */
     RC_POWER_ALARM_Q1,
     RC_POWER_ALARM_Q2,
     RC_POWER_ALARM_Q3,
@@ -165,31 +171,34 @@ typedef enum {
     RC_RING_FAIL_INT,
     RC_CAL_TIMEOUT,
     RC_PATCH_ERR,
-    RC_BROADCAST_FAIL,
-    RC_UNSUPPORTED_FEATURE, /**< Feature is not supported by the chipset*/
-    RC_CHANNEL_TYPE_ERR,    /**< API was called with the wrong channel type - for example: ProSLIC API called for a VDAA channel */
-    RC_GAIN_DELTA_TOO_LARGE,
-    RC_GAIN_OUT_OF_RANGE,  /**< Gain requested exceeds range */
-    RC_POWER_ALARM_HVIC,
-    RC_POWER_ALARM_OFFLD,
-    RC_THERMAL_ALARM_HVIC,
-    RC_NO_MEM,  /**< Out of memory */
-    RC_INVALID_GEN_PARAM,
-    RC_LINE_IN_USE,
-    RC_RING_V_LIMITED,
-    RC_PSTN_CHECK_SINGLE_FAIL,
-    RC_PSTN_CHECK_AVG_FAIL,
-    RC_VDAA_ILOOP_OVLD,
-    RC_UNSUPPORTED_OPTION, /**< Function parameter is not supported at this time */
-    RC_FDT_TIMEOUT, 
-    RC_PSTN_OPEN_FEMF, /**< Detected FEMF, device left in open state */
-    RC_VDAA_PAR_HANDSET_DET,
-    RC_VDAA_PAR_HANDSET_NOT_DET,
-    RC_PATCH_RAM_VERIFY_FAIL,
-    RC_PATCH_ENTRY_VERIFY_FAIL,
-    RC_UNSUPPORTED_DEVICE_REV,
-	RC_INVALID_PATCH,    /**< No patch for selected options */
-	RC_INVALID_PRESET    /**< Invalid Preset value */
+    RC_BROADCAST_FAIL,           /**< Broadcast unavailable for requested operation */
+    RC_UNSUPPORTED_FEATURE,      /**< Feature is not supported by the chipset*/
+    RC_CHANNEL_TYPE_ERR,         /**< Channel type does not support called function */
+    RC_GAIN_DELTA_TOO_LARGE,     /**< Requested gain delta too large */
+    RC_GAIN_OUT_OF_RANGE,        /**< Gain requested exceeds range */
+    RC_POWER_ALARM_HVIC,         /**< Power alarm on HVIC */
+    RC_POWER_ALARM_OFFLD,        /**< Power alarm on offload transistor */
+    RC_THERMAL_ALARM_HVIC,       /**< Thermal alarm detected */
+    RC_NO_MEM,                   /**< Out of memory */
+    RC_INVALID_GEN_PARAM,        /**< Invalid general parameter */
+    RC_LINE_IN_USE,              /**< Line is in use (LCS detected) */
+    RC_RING_V_LIMITED,           /**< Ringer voltage limited - signal may be clipped */
+    RC_PSTN_CHECK_SINGLE_FAIL,   /**< PSTN detect single current exceeds limit */
+    RC_PSTN_CHECK_AVG_FAIL,      /**< PSTN detect average current exceeds limit */
+    RC_VDAA_ILOOP_OVLD,          /**< Overload detected */
+    RC_UNSUPPORTED_OPTION,       /**< Function parameter is not supported at this time */
+    RC_FDT_TIMEOUT,              /**< Timeout waiting for valid frame detect */
+    RC_PSTN_OPEN_FEMF,           /**< Detected FEMF, device left in open state */
+    RC_VDAA_PAR_HANDSET_DET,     /**< Parallel handset detected */
+    RC_VDAA_PAR_HANDSET_NOT_DET,/**< Parallel handset not detected */
+    RC_PATCH_RAM_VERIFY_FAIL,  /**< Patch RAM verification failure */
+    RC_PATCH_ENTRY_VERIFY_FAIL,/**< Patch entry table verification failure */ 
+    RC_UNSUPPORTED_DEVICE_REV, /**< Device revision not supported */
+	RC_INVALID_PATCH,          /**< No patch for selected options */
+	RC_INVALID_PRESET,         /**< Invalid Preset value */
+	RC_TEST_DISABLED,          /**< Test Not enabled */
+	RC_RING_START_FAIL,        /**< Ringing failed to start */
+    RC_REINIT_REQUIRED = 255   /**< Soft Reset Required */
 } errorCodeType;
 
 
@@ -198,12 +207,25 @@ typedef enum {
 * for which design you're using.
 */
 typedef enum {
-	DEFAULT,     /**< Default design */
-	SI321X_HV,   /**< SI321x High voltage */
-    BO_DCDC_FLYBACK, /**< DC power supply: flyback design */
-    BO_DCDC_QCUK,    /**< DC power supply: quasi-chuk design */
-    BO_DCDC_BUCK_BOOST /**< DC power supply: buck boost design */
+	DEFAULT,                /**< Default design */
+	SI321X_HV,              /**< SI321x High voltage */
+    BO_DCDC_FLYBACK,        /**< DC power supply: flyback design */
+    BO_DCDC_QCUK,           /**< DC power supply: quasi-cuk design */
+    BO_DCDC_BUCK_BOOST,     /**< DC power supply: buck boost design */
+    BO_DCDC_LCQCUK,         /**< DC power supply: low-cost quasi-cuk design */
+	BO_DCDC_P_BUCK_BOOST_5V /**< DC power supply:  pmos buck-boost 5v design */
 } bomOptionsType;
+
+/**
+* Initialization options to allow init flow and/or content to be
+* altered at runtime
+*/
+typedef enum {
+	INIT_NO_OPT,	     /**<  No initialization option */
+	INIT_REINIT,         /**<  Reinitialization option */
+	INIT_NO_CAL,         /**<  Skip calibration only */
+	INIT_NO_PATCH_LOAD   /**<  Skip patch load */
+} initOptionsType;
 
 /**
 ** This is the main Voice device object

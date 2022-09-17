@@ -1,7 +1,7 @@
 /*
 ** Copyright (c) 2007 by Silicon Laboratories
 **
-** $Id: si3217x_registers.h 1823 2010-04-15 14:26:51Z cdp $
+** $Id: si3217x_registers.h 3044 2011-08-10 15:54:52Z cdp $
 **
 ** Si3217x_Registers.h
 **
@@ -1179,6 +1179,7 @@ enum {
     CAL_TRNRD_DACR,
     CMDAC_FWD = 1476,
     CMDAC_REV,
+	RDC_SUM = 1499,
     DCDC_DCFF_ENABLE = 1522,
     PD_DCDC = 1538,
 	DCDC_UVHYST = 1545,

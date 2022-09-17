@@ -1,7 +1,7 @@
 /*
 ** Copyright (c) 2007-2010 by Silicon Laboratories
 **
-** $Id: proslic.h 2657 2011-01-27 15:15:35Z nizajerk $
+** $Id: proslic.h 3100 2011-09-15 14:04:54Z cdp $
 **
 ** Proslic.h
 **
@@ -71,6 +71,8 @@
 #define TIMEOUT_MADC_CAL            100
 #define TIMEOUT_GEN_CAL             300
 #define TIMEOUT_LB_CAL              2410
+
+/* 
 
 /** @mainpage
  * This document is a supplement to the ProSLIC API Specification.  It has most
@@ -316,6 +318,20 @@ enum {
     TXACGAIN_SEL = 0,
     RXACGAIN_SEL = 1
 };
+
+
+/*
+** Defines structure for configuring audio gain on the fly
+*/
+typedef struct {
+	ramData acgain;
+	uInt8 mute;
+	ramData aceq_c0;
+	ramData aceq_c1;
+	ramData aceq_c2;
+	ramData aceq_c3;
+} ProSLIC_audioGain_Cfg;
+
 /** @} GAIN_CONTROL */
 
 /*****************************************************************************/
@@ -444,6 +460,36 @@ enum {
     PWRSAVE_ENABLE = 1   /**< Enable power savings mode */
 };
 
+/**
+** DC Feed Preset
+*/
+typedef struct {
+	ramData slope_vlim;
+	ramData slope_rfeed;
+	ramData slope_ilim;
+	ramData delta1;
+	ramData delta2;
+	ramData v_vlim;
+	ramData v_rfeed;
+	ramData v_ilim;
+	ramData const_rfeed;
+	ramData const_ilim;
+	ramData i_vlim;
+	ramData lcronhk;
+	ramData lcroffhk;
+	ramData lcrdbi;
+	ramData longhith;
+	ramData longloth;
+	ramData longdbi;
+	ramData lcrmask;
+	ramData lcrmask_polrev;
+	ramData lcrmask_state;
+	ramData lcrmask_linecap;
+	ramData vcm_oh;
+	ramData vov_bat;
+	ramData vov_gnd;
+} ProSLIC_DCfeed_Cfg;
+
 /** @} PROSLIC_DCFEED */
 
 /*****************************************************************************/
@@ -481,6 +527,8 @@ typedef struct
  */
 
 int ProSLIC_LineMonitor(proslicChanType_ptr pProslic, proslicMonitorType *monitor);
+
+int32 ProSLIC_ReadMADCScaled(proslicChanType_ptr pProslic, uInt16 addr, int32 scale);
 
 /** @defgroup PSTN_CHECK PSTN Check
  * Monitor for excessive longitudinal current, which
@@ -950,6 +998,21 @@ int ProSLIC_Init (proslicChanType_ptr *hProslic, int size);
 int ProSLIC_InitBroadcast (proslicChanType_ptr *hProslic);
 
 /**
+ * @brief
+ *  Performs soft reset then calls ProSLIC_Init()
+ *
+ * @param[in] hProslic - which channel(s) to initialize, if size > 1, then the start of the array
+ * of channels to be initialized.
+ * @param[in] size - the number of channels to initialize.
+ *
+ * @retval int - error from @ref errorCodeType  @ref RC_NONE indicates no error.
+ * @sa ProSLIC_InitBroadcast
+ */
+
+int ProSLIC_Reinit (proslicChanType_ptr hProslic, int size);
+
+
+/**
  * @brief 
  * Loads registers and RAM in the ProSLICs specicified.
  *
@@ -1069,6 +1132,52 @@ int ProSLIC_setSWDebugMode (proslicChanType_ptr hProslic, int debugEn);
 
 /**
  * @brief
+ * This function allows access to SPI read register function pointer from interface
+ *
+ * @param[in] hProslic - pointer to channel structure
+ * @param[in] addr - address to read
+ * @retval uInt8 - register contents
+ *
+ */
+uInt8 ProSLIC_ReadReg (proslicChanType_ptr hProslic, uInt8 addr);
+
+/**
+ * @brief
+ * This function allows access to SPI write register function pointer from interface
+ *
+ * @param[in] hProslic - pointer to channel structure
+ * @param[in] addr - address to write
+ * @param[in] data to be written
+ * @retval int - @ref RC_NONE
+ *
+ */
+int ProSLIC_WriteReg (proslicChanType *pProslic, uInt8 addr, uInt8 data);
+
+/**
+ * @brief
+ * This function allows access to SPI read RAM function pointer from interface
+ *
+ * @param[in] hProslic - pointer to channel structure
+ * @param[in] addr - address to read
+ * @retval ramData - RAM contents
+ *
+ */
+ramData ProSLIC_ReadRAM (proslicChanType *pProslic, uInt16 addr);
+
+/**
+ * @brief
+ * This function allows access to SPI write RAM function pointer from interface
+ *
+ * @param[in] hProslic - pointer to channel structure
+ * @param[in] addr - address to write
+ * @param[in] data to be written
+ * @retval int - @ref RC_NONE
+ *
+ */
+int ProSLIC_WriteRAM (proslicChanType *pProslic, uInt16 addr, ramData data);
+
+/**
+ * @brief
  * This function dumps to console the register contents of several
  * registers and RAM locations.
  *
@@ -1076,8 +1185,29 @@ int ProSLIC_setSWDebugMode (proslicChanType_ptr hProslic, int debugEn);
  * @retval int - error from @ref errorCodeType  @ref RC_NONE indicates no error.
  *
  */
-
 int ProSLIC_PrintDebugData (proslicChanType *pProslic);
+
+/**
+ * @brief
+ * This function dumps the registers to the console using whatever
+ * I/O method is defined by LOGPRINT
+ *
+ * @param[in] pProslic - which channel to dump the register contents of.
+ * @retval int - error from @ref errorCodeType  @ref RC_NONE indicates no error.
+ *
+ */
+int ProSLIC_PrintDebugReg (proslicChanType *pProslic);
+
+/**
+ * @brief
+ * This function dumps the RAM to the console using whatever
+ * I/O method is defined by LOGPRINT
+ *
+ * @param[in] pProslic - which channel to dump the RAM contents of.
+ * @retval int - error from @ref errorCodeType  @ref RC_NONE indicates no error.
+ *
+ */
+int ProSLIC_PrintDebugRAM (proslicChanType *pProslic);
 
 /** @} PROSLIC_DEBUG */
 /*****************************************************************************/
@@ -2237,6 +2367,8 @@ int ProSLIC_DiffPSTNCheck(proslicChanType *pProslic, proslicDiffPSTNCheckObjType
 
 int ProSLIC_DCFeedSetup (proslicChanType_ptr hProslic,int preset);
 
+int ProSLIC_DCFeedSetupCfg (proslicChanType_ptr hProslic, ProSLIC_DCfeed_Cfg *cfg, int preset);
+
 /**
  * @brief
  *  This function allows one to adjust the DC open circuit voltage level dynamically. Boundary checking is done. 
@@ -2341,17 +2473,6 @@ int ProSLIC_PLLFreeRunStop (proslicChanType_ptr hProslic);
  *  @retval char * - returns back a constant string.
  */
 char *ProSLIC_Version(void);
-
-// add by Joshua 2011.05.17
-int ProSLIC_SO_DTRx_Loopback (proslicChanType *pProslic, unsigned int enable);
-int ProSLIC_GetLinefeedStatus (proslicChanType *pProslic,uInt8 *newLinefeed);
-int ProSLIC_Set_Ring_Cadence_ON(proslicChanType *pProslic, unsigned short msec);
-int ProSLIC_Set_Ring_Cadence_OFF(proslicChanType *pProslic, unsigned short msec);
-int ProSLIC_Set_Impendance_Silicon(proslicChanType *pProslic, unsigned short country, unsigned short impd /*reserve*/);
-int ProSLIC_Set_Impendance(proslicChanType *pProslic, unsigned short preset);
-int ProSLIC_SendNTTCAR(proslicChanType *pProslic);
-unsigned int ProSLIC_SendNTTCAR_check(unsigned int chid, proslicChanType *pProslic, unsigned long time_out);
-int ProSLIC_SetUserMode(proslicChanType *pProslic, int on);
 
 /** @} MISC */
 /** @} */

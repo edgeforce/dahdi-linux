@@ -1,7 +1,7 @@
 /*
 ** Copyright (c) 2007 by Silicon Laboratories
 **
-** $Id: si3217x.h 1832 2010-04-19 21:39:12Z cdp $
+** $Id: si3217x.h 3100 2011-09-15 14:04:54Z cdp $
 **
 ** Author(s): 
 ** laj
@@ -42,35 +42,7 @@ typedef struct {
 	uInt8 batselmap;
 } Si3217x_GPIO_Cfg;
 
-/*
-** Defines structure for configuring dc feed
-*/
-typedef struct {
-	ramData slope_vlim;
-	ramData slope_rfeed;
-	ramData slope_ilim;
-	ramData delta1;
-	ramData delta2;
-	ramData v_vlim;
-	ramData v_rfeed;
-	ramData v_ilim;
-	ramData const_rfeed;
-	ramData const_ilim;
-	ramData i_vlim;
-	ramData lcronhk;
-	ramData lcroffhk;
-	ramData lcrdbi;
-	ramData longhith;
-	ramData longloth;
-	ramData longdbi;
-	ramData lcrmask;
-	ramData lcrmask_polrev;
-	ramData lcrmask_state;
-	ramData lcrmask_linecap;
-	ramData vcm_oh;
-	ramData vov_bat;
-	ramData vov_gnd;
-} Si3217x_DCfeed_Cfg;
+typedef ProSLIC_DCfeed_Cfg Si3217x_DCfeed_Cfg;
 
 /*
 ** Defines structure for general configuration and the dcdc converter
@@ -240,14 +212,7 @@ typedef struct {
 /*
 ** Defines structure for configuring audio gain
 */
-typedef struct {
-	ramData acgain;
-	uInt8 mute;
-	ramData aceq_c0;
-	ramData aceq_c1;
-	ramData aceq_c2;
-	ramData aceq_c3;
-} Si3217x_audioGain_Cfg;
+typedef ProSLIC_audioGain_Cfg Si3217x_audioGain_Cfg;
 
 
 

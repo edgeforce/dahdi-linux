@@ -1,7 +1,7 @@
 /*
 ** Copyright (c) 2007-2010 by Silicon Laboratories
 **
-** $Id: si3217x_intf.h 2395 2010-11-03 23:09:03Z nizajerk $
+** $Id: si3217x_intf.h 3088 2011-09-13 15:12:43Z cdp $
 **
 ** Si3217x_Intf.h
 ** Si3217x ProSLIC interface header file
@@ -40,6 +40,9 @@
 #define SI3217X_CAL_STD_CALR1       0xFF
 #define SI3217X_CAL_STD_CALR2       0xF8
 
+/* Timeouts in 10s of ms */
+#define SI3217X_TIMEOUT_DCDC_UP     200
+#define SI3217X_TIMEOUT_DCDC_DOWN   200
 
 /*
 **
@@ -108,7 +111,19 @@ int Si3217x_Init_MultiBOM (proslicChanType_ptr *hProslic,int size,int preset);
 */
 int Si3217x_Init (proslicChanType_ptr *hProslic,int size);
 
-
+/*
+** Function: PROSLIC_Reinit
+**
+** Description: 
+** Soft reset and initialization
+**
+** Input Parameters: 
+** pProslic: pointer to PROSLIC object
+**
+** Return:
+** none
+*/
+int Si3217x_Reinit (proslicChanType_ptr hProslic,int size);
 /*
 ** Function: PROSLIC_VerifyControlInterface
 **
@@ -123,6 +138,11 @@ int Si3217x_Init (proslicChanType_ptr *hProslic,int size);
 */
 int Si3217x_VerifyControlInterface (proslicChanType_ptr hProslic);
 
+uInt8 Si3217x_ReadReg (proslicChanType_ptr hProslic,uInt8 addr);
+int Si3217x_WriteReg (proslicChanType_ptr hProslic,uInt8 addr,uInt8 data);
+ramData Si3217x_ReadRAM (proslicChanType_ptr hProslic,uInt16 addr);
+int Si3217x_WriteRAM (proslicChanType_ptr hProslic,uInt16 addr, ramData data);
+
 /*
 ** Function: ProSLIC_PrintDebugData
 **
@@ -136,6 +156,34 @@ int Si3217x_VerifyControlInterface (proslicChanType_ptr hProslic);
 ** none
 */
 int Si3217x_PrintDebugData (proslicChanType_ptr hProslic);
+
+/*
+** Function: ProSLIC_PrintDebugReg
+**
+** Description: 
+** Register dump utility
+**
+** Input Parameters: 
+** pProslic: pointer to PROSLIC object
+**
+** Return:
+** none
+*/
+int Si3217x_PrintDebugReg (proslicChanType_ptr hProslic);
+
+/*
+** Function: ProSLIC_PrintDebugRAM
+**
+** Description: 
+** RAM dump utility
+**
+** Input Parameters: 
+** pProslic: pointer to PROSLIC object
+**
+** Return:
+** none
+*/
+int Si3217x_PrintDebugRAM (proslicChanType_ptr hProslic);
 
 /*
 ** Function: Si3217x_PowerUpConverter
@@ -483,6 +531,7 @@ int Si3217x_AudioEQSetup (proslicChanType *pProslic, int preset);
 ** none
 */
 int Si3217x_DCFeedSetup (proslicChanType *pProslic, int preset);
+int Si3217x_DCFeedSetupCfg (proslicChanType *pProslic, ProSLIC_DCfeed_Cfg *cfg, int preset);
 
 /*
 ** Function: PROSLIC_GPIOSetup

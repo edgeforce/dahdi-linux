@@ -1,7 +1,7 @@
 /*
 ** Copyright (c) 2007 by Silicon Laboratories
 **
-** $Id: si3226_registers.h 1553 2010-01-07 18:38:54Z cdp@SILABS.COM $
+** $Id: si3226_registers.h 3044 2011-08-10 15:54:52Z cdp $
 **
 ** Si3226_Registers.h
 **
@@ -1174,6 +1174,7 @@ enum {
     CAL_TRNRD_DACR,
     CMDAC_FWD = 1476,
     CMDAC_REV,
+	RDC_SUM = 1499,
     STBY_LEAKAGE_OS = 1537,
     PD_DCDC = 1538,
 	DCDC_UVHYST = 1545,
