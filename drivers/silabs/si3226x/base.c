@@ -136,7 +136,7 @@ static const proslic_args_t proslic_args_3226x = {
 	.ring_setup_preset = 0,	// 20Hz, 48V
 };
 
-static int __init voip_snd_si3226x_init( void )
+static int __init si3226x_init( void )
 {
 	extern int law;	// FIXME: chmap 
 	extern const snd_ops_fxs_t snd_proslic_fxs_ops;
@@ -181,5 +181,10 @@ static int __init voip_snd_si3226x_init( void )
 	return 0;
 }
 
-voip_initcall_snd( voip_snd_si3226x_init );
+MODULE_DESCRIPTION("Silicon Labs Si3226x FXS Driver");
 
+MODULE_ALIAS("Si3226x");
+MODULE_LICENSE("GPL v2");
+
+module_init(si3226x_init);
+module_exit(si3226x_cleanup);
