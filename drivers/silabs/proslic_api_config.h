@@ -119,7 +119,6 @@
 #define SI3226X_PATCH_C_DEFAULT    RevCPatch
 
 
-
 /** @} MULTI_BOM */
 #include <linux/kernel.h>
 #if (PRINT_TO_STRING)  
