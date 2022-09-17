@@ -12,7 +12,7 @@
  */
 
 
-static int __init si3226x_init( void )
+static int __init si3226x_init(void)
 {
 
 }
