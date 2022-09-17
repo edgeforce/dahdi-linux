@@ -1,3 +1,6 @@
+/* Silicon Labs Si3226x FXS Driver
+ */
+
 /*
  * See http://www.asterisk.org for more information about
  * the Asterisk project. Please do not directly contact
