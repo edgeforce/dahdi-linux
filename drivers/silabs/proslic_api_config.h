@@ -27,7 +27,6 @@
 * Define device driver to be compliled
 * @{
 */
-#if 0 // add by Joshua 2011.05.17, the define is coming from upper layer
 #define SI321X  /**< Define to support Si321X chipset family in the build */
 #undef SI321X 
 #define SI322X  /**< Define to support Si322x chipset family in the build */
@@ -38,7 +37,14 @@
 #undef SI3226X
 #define SI324X /**< Define to support Si324x chipset family in the build */
 #undef SI324X
+
+#if defined(CONFIG_SILAB_SLIC_SI3226x)
+#define SI3226X
 #endif
+#if defined(CONFIG_SILAB_SLIC_SI3217x)
+#define SI3217X
+#endif
+
 
 /** @} PROSLIC_DRIVER_SEL*/
 
@@ -69,7 +75,7 @@
 #define DISABLE_ZSYNTH_SETUP      /**< Disable Zsyth/impedance setup */
 #undef DISABLE_ZSYNTH_SETUP  
 #define DISABLE_MALLOC            /**< Don't use MALLOC/FREE, instead assume user will statically allocate */
-/*#undef DISABLE_MALLOC */ // modified by Joshua 2011.05.17
+#undef DISABLE_MALLOC
 /**@} */
 
 #define GCI_MODE  /**< Set if GCI vs. SPI/PCM mode is to be used */
@@ -113,20 +119,15 @@
 #define SI3226X_PATCH_C_DEFAULT    RevCPatch
 
 
-/** @} MULTI_BOM */
 
-#if 0 // Joshua 2011.03.08, use printk
-#include "stdio.h"
+/** @} MULTI_BOM */
+#include <linux/kernel.h>
 #if (PRINT_TO_STRING)  
 extern char outputBuffer[]; 
 #define LOGPRINT(...) sprintf(&(outputBuffer[strlen(outputBuffer)]),__VA_ARGS__) 
 #else 
-#define LOGPRINT printf
-#endif 
-#else
-#include <linux/kernel.h>
 #define LOGPRINT printk
-#endif
+#endif 
 
 /** @defgroup PSTN_CFG PSTN Detection Options
 * @{ */
