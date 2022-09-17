@@ -12,8 +12,7 @@ Supported Hardware
 ------------------
 Single-Chip Drivers
 ~~~~~~~~~~~~
-- si3226x:
-  * Silicon Laboratories Si3226x: up to 2 FXS
+- si3226x: Silicon Laboratories Si3226x: up to 2 FXS
 
 
 Other Drivers
