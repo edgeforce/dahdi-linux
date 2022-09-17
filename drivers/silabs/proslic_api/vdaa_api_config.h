@@ -1,5 +1,5 @@
 /*
-** Copyright ?2008-2010 by Silicon Laboratories
+** Copyright © 2008-2010 by Silicon Laboratories
 **
 ** $Id: vdaa_api_config.h 1994 2010-06-01 23:48:45Z nizajerk $
 **
@@ -38,11 +38,7 @@
 #ifndef ENABLE_DEBUG
 #define ENABLE_DEBUG
 #endif
-#if 1 // Joshua 2011.05.11, use printk
-#include <linux/kernel.h>
-#define LOGPRINT printk
-#else
 #include "stdio.h"
 #define LOGPRINT printf
-#endif
+
 #endif

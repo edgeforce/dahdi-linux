@@ -140,15 +140,15 @@ vdaa_Ring_Detect_Cfg Vdaa_Ring_Detect_Presets[] ={
 
 vdaa_PCM_Cfg Vdaa_PCM_Presets[] ={
     {
-    A_LAW,
-    PCLK_1_PER_BIT,
-    TRI_POS_EDGE
-    },  /* PCM_8ALAW */
-    {
     U_LAW,
     PCLK_1_PER_BIT,
     TRI_POS_EDGE
     },  /* PCM_8ULAW */
+    {
+    A_LAW,
+    PCLK_1_PER_BIT,
+    TRI_POS_EDGE
+    },  /* PCM_8ALAW */
     {
     LINEAR_16_BIT,
     PCLK_1_PER_BIT,

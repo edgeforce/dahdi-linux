@@ -1,7 +1,7 @@
 /*
 * Copyright 2007-2010 by Silicon Laboratories
 *
-* $Id: proslic_api_config.h 2411 2010-11-08 20:15:39Z cdp $
+* $Id: proslic_api_config.h 3073 2011-08-26 21:46:11Z cdp $
 *
 *
 * Author(s): 
@@ -32,7 +32,7 @@
 #define SI322X  /**< Define to support Si322x chipset family in the build */
 #undef SI322X
 #define SI3217X /**< Define to support Si3217x chipset family in the build */
-#undef SI3217X 
+#undef SI3217X
 #define SI3226X /**< Define to support Si3226x chipset family in the build */
 #undef SI3226X
 #define SI324X /**< Define to support Si324x chipset family in the build */
@@ -75,7 +75,7 @@
 #define DISABLE_ZSYNTH_SETUP      /**< Disable Zsyth/impedance setup */
 #undef DISABLE_ZSYNTH_SETUP  
 #define DISABLE_MALLOC            /**< Don't use MALLOC/FREE, instead assume user will statically allocate */
-#undef DISABLE_MALLOC
+#undef DISABLE_MALLOC 
 /**@} */
 
 #define GCI_MODE  /**< Set if GCI vs. SPI/PCM mode is to be used */
@@ -99,14 +99,16 @@
 
 #define SI3217X_PATCH_B_FLBK       si3217xPatchRevBFlbk  /**< Si3217x Flyback DCDC Converter patch */
 #define SI3217X_PATCH_B_BKBT       si3217xPatchRevBBkbt  /**< Si3217x Buck-boost DCDC Converter patch */
+#define SI3217X_PATCH_B_PBB5       si3217xPatchRevBBkbt  /**< Si3217x PMOS Buck-boost DCDC Converter patch */
 
-#define SI3226X_PATCH_B_FLBK       si3226xPatchRevBFlbk  /**< Si3226x RevB Flyback DCDC Converter Patch */
-#define SI3226X_PATCH_B_QCUK       si3226xPatchRevBFlbk  /**< Si3226x RevB Quasi-CUK DCDC Converter Patch */
-#define SI3226X_PATCH_B_FIXRL      si3226xPatchRevBFlbk  /**< Si3226x RevB Fixed Rail DCDC Converter Patch */
-#define SI3226X_PATCH_C_FLBK       si3226xPatchRevCFlbk  /**< Si3226x RevC Flyback DCDC Converter Patch */
-#define SI3226X_PATCH_C_QCUK       si3226xPatchRevCFlbk  /**< Si3226x RevC Quasi-CUK DCDC Converter Patch */
-#define SI3226X_PATCH_C_TSS        si3226xPatchRevCFlbk  /**< Si3226x RevC TSS DCDC Converter Patch */
-#define SI3226X_PATCH_C_TSS_ISO    si3226xPatchRevCFlbk  /**< Si3226x RevC TSS (isolated) DCDC Converter Patch */
+#define SI3226X_PATCH_B_FLBK       si3226xPatchRevBFlbk    /**< Si3226x RevB Flyback DCDC Converter Patch */
+#define SI3226X_PATCH_B_QCUK       si3226xPatchRevBFlbk    /**< Si3226x RevB Quasi-CUK DCDC Converter Patch */
+#define SI3226X_PATCH_B_FIXRL      si3226xPatchRevBFlbk    /**< Si3226x RevB Fixed Rail DCDC Converter Patch */
+#define SI3226X_PATCH_C_FLBK       si3226xPatchRevCFlbk    /**< Si3226x RevC Flyback DCDC Converter Patch */
+#define SI3226X_PATCH_C_QCUK       si3226xPatchRevCFlbk    /**< Si3226x RevC Quasi-CUK DCDC Converter Patch */
+#define SI3226X_PATCH_C_LCQCUK     si3226xPatchRevCFlbk    /**< Si3226x RevC Low-cost QCUK DCDC Converter Patch */
+#define SI3226X_PATCH_C_TSS        si3226xPatchRevCTss     /**< Si3226x RevC TSS DCDC Converter Patch */
+#define SI3226X_PATCH_C_TSS_ISO    si3226xPatchRevCTssIso  /**< Si3226x RevC TSS (isolated) DCDC Converter Patch */
 #define SI3226x_PATCH_C_FIXRL      SI3226X_PATCH_C_TSS
 #endif
 
@@ -150,7 +152,7 @@ extern char outputBuffer[];
 #define SI3210_TONE
 #undef  SI3210_TONE
 #define SI3215_TONE
-#undef  SI3215_TONE
+/* #undef  SI3215_TONE */
 /** @} SI321X_TONE */
 
 #define SIVOICE_CFG_NEWTYPES_ONLY  1 /**< Set if not supporting Legacy types */
