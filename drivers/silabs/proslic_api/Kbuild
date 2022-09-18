@@ -1,4 +1,4 @@
-obj-y := proslic.o proslic_ctrl_spi.o proslic_timer_linux.o si_voice_version.o si_voice.o
+obj-y := proslic.o si_voice_version.o si_voice.o
 
 obj-$(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_SI3226) += si3226_intf.o
 
