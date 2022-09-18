@@ -1,0 +1,23 @@
+obj-y := proslic.o proslic_ctrl_spi.o proslic_timer_linux.o si_voice_version.o si_voice.o
+
+obj-$(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_SI3226X) += si3226_intf.o si3226_userdef.o 
+
+obj-$(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_SI3226x) += si3226x_intf.o si3226x_userdef.o
+
+obj-$(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_SI3217x) += si3217x_intf.o si3217x_userdef.o 
+
+ifeq ($(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_FXO),y)
+ifeq ($(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_SI3050),y)
+obj-y += vdaa.o
+endif
+endif
+
+ifeq "$(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_SI3217x)" "y"
+EXTRA_CFLAGS += -DSI3217X
+endif
+ifeq "$(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_SI3226)" "y"
+EXTRA_CFLAGS += -DSI322X
+endif
+ifeq "$(DAHDI_BUILD_ALL)$(CONFIG_DAHDI_SI3226X)" "y"
+EXTRA_CFLAGS += -DSI3226X
+endif
